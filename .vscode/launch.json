@@ -16,7 +16,7 @@
             "name": "HCLAUdit<hclhackathon>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "net.hcl.hclhackathon.HclhackathonApplication",
+            "mainClass": "net.hcl.hclhackathon.HclhackathonApplicationAudit",
             "projectName": "hclhackathon",
             "args": "",
             "envFile": "${workspaceFolder}/.env"

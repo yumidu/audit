@@ -1,0 +1,407 @@
+
+securitySchemes:
+    bearerAuth:  # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+paths:
+  /instrument:
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+        - instrument
+      summary: Add new Instrument
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: displayName
+          description: Save new Instrument
+          required: true
+          schema:
+            $ref: '#/definitions/instrument'
+      responses:
+        '201':
+          description: An object with Instrument details
+
+  /instrument/:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - instrument
+      summary: List Instrument
+      description: Search Instrument 
+      parameters:
+        - name: page
+          in: query
+          description: page No
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit data per page or Page Size
+          required: false
+          explode: true
+          schema:
+            type: integer
+        
+        - name: createBy
+          in: query
+          description: createBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: createBy_mode
+          in: query
+          description: createBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: updateBy
+          in: query
+          description: updateBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: updateBy_mode
+          in: query
+          description: updateBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: instrument_name
+          in: query
+          description: instrument_name values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: instrument_name_mode
+          in: query
+          description: instrument_name mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: instrument_value
+          in: query
+          description: instrument_value values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: instrument_value_mode
+          in: query
+          description: instrument_value mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: instrument_type
+          in: query
+          description: instrument_type values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: instrument_type_mode
+          in: query
+          description: instrument_type mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  perpage:
+                    type: integer
+                  page:
+                    type: integer
+                  docs:
+                    type: array
+                    items:
+                      $ref: '#/definitions/instrumentData'
+        '400':
+          description: Invalid status value
+/instrument/all:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - instrument
+      summary: List Instrument
+      description: get all data without paging
+      parameters: 
+       
+        - name: createBy
+          in: query
+          description: createBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: createBy_mode
+          in: query
+          description: createBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: updateBy
+          in: query
+          description: updateBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: updateBy_mode
+          in: query
+          description: updateBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: instrument_name
+          in: query
+          description: instrument_name values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: instrument_name_mode
+          in: query
+          description: instrument_name mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: instrument_value
+          in: query
+          description: instrument_value values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: instrument_value_mode
+          in: query
+          description: instrument_value mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: instrument_type
+          in: query
+          description: instrument_type values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: instrument_type_mode
+          in: query
+          description: instrument_type mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/instrumentData'
+        '400':
+          description: Invalid status value
+/instrument/suggestions:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - instrument
+      summary: List instrument
+      description: Keyward search data on instrument_name,instrument_type
+      parameters:
+        - name: search  
+          in: query
+          description: keyword search on instrument_name,instrument_type
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/instrumentData'
+        '400':
+          description: Invalid status value
+/instrument/{id}:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - instrument
+      summary: List instrument
+      description: get 
+      parameters:
+        - name: id
+          in: path
+          description: get Instrument by id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/instrumentData'
+        '400':
+          description: Invalid status value
+definitions:
+  instrument:
+      type: object
+      properties:
+        
+        createBy:
+            type: string
+        createAt:
+            type: string
+            format: date-time
+        updateBy:
+            type: string
+        updateAt:
+            type: string
+            format: date-time
+        instrument_name:
+            type: string
+            minLength: 2      
+            maxLength: 20      
+        instrument_value:
+            type: number
+            format: double
+        instrument_type:
+            type: string
+          
+
+  instrumentData:
+      type: object
+      properties:
+      
+        createBy:
+            type: string
+        createAt:
+            type: string
+            format: date-time
+        updateBy:
+            type: string
+        updateAt:
+            type: string
+            format: date-time
+        instrument_name:
+            type: string
+            minLength: 2      
+            maxLength: 20      
+        instrument_value:
+            type: number
+            format: double
+        instrument_type:
+            type: string
+          
+    
