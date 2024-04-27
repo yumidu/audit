@@ -1,0 +1,507 @@
+
+securitySchemes:
+    bearerAuth:  # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+paths:
+  /portfolio:
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+        - portfolio
+      summary: Add new Portfolio
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: displayName
+          description: Save new Portfolio
+          required: true
+          schema:
+            $ref: '#/definitions/portfolio'
+      responses:
+        '201':
+          description: An object with Portfolio details
+
+  /portfolio/:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - portfolio
+      summary: List Portfolio
+      description: Search Portfolio 
+      parameters:
+        - name: page
+          in: query
+          description: page No
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit data per page or Page Size
+          required: false
+          explode: true
+          schema:
+            type: integer
+        
+        - name: createBy
+          in: query
+          description: createBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: createBy_mode
+          in: query
+          description: createBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: updateBy
+          in: query
+          description: updateBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: updateBy_mode
+          in: query
+          description: updateBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: customer_name
+          in: query
+          description: customer_name values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: customer_name_mode
+          in: query
+          description: customer_name mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: portfolio_number
+          in: query
+          description: portfolio_number values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: portfolio_number_mode
+          in: query
+          description: portfolio_number mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: portfolio_value
+          in: query
+          description: portfolio_value values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: portfolio_value_mode
+          in: query
+          description: portfolio_value mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: current_performance
+          in: query
+          description: current_performance values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: current_performance_mode
+          in: query
+          description: current_performance mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: investment_strategy
+          in: query
+          description: investment_strategy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: investment_strategy_mode
+          in: query
+          description: investment_strategy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  perpage:
+                    type: integer
+                  page:
+                    type: integer
+                  docs:
+                    type: array
+                    items:
+                      $ref: '#/definitions/portfolioData'
+        '400':
+          description: Invalid status value
+/portfolio/all:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - portfolio
+      summary: List Portfolio
+      description: get all data without paging
+      parameters: 
+       
+        - name: createBy
+          in: query
+          description: createBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: createBy_mode
+          in: query
+          description: createBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: updateBy
+          in: query
+          description: updateBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: updateBy_mode
+          in: query
+          description: updateBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: customer_name
+          in: query
+          description: customer_name values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: customer_name_mode
+          in: query
+          description: customer_name mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: portfolio_number
+          in: query
+          description: portfolio_number values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: portfolio_number_mode
+          in: query
+          description: portfolio_number mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: portfolio_value
+          in: query
+          description: portfolio_value values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: portfolio_value_mode
+          in: query
+          description: portfolio_value mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: current_performance
+          in: query
+          description: current_performance values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: current_performance_mode
+          in: query
+          description: current_performance mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: investment_strategy
+          in: query
+          description: investment_strategy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: investment_strategy_mode
+          in: query
+          description: investment_strategy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/portfolioData'
+        '400':
+          description: Invalid status value
+/portfolio/suggestions:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - portfolio
+      summary: List portfolio
+      description: Keyward search data on customer_name,portfolio_number,investment_strategy
+      parameters:
+        - name: search  
+          in: query
+          description: keyword search on customer_name,portfolio_number,investment_strategy
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/portfolioData'
+        '400':
+          description: Invalid status value
+/portfolio/{id}:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - portfolio
+      summary: List portfolio
+      description: get 
+      parameters:
+        - name: id
+          in: path
+          description: get Portfolio by id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/portfolioData'
+        '400':
+          description: Invalid status value
+definitions:
+  portfolio:
+      type: object
+      properties:
+        
+        createBy:
+            type: string
+        createAt:
+            type: string
+            format: date-time
+        updateBy:
+            type: string
+        updateAt:
+            type: string
+            format: date-time
+        customer_name:
+            type: string
+            minLength: 2      
+            maxLength: 150      
+        portfolio_number:
+            type: string
+            minLength: 3      
+            maxLength: 15      
+        portfolio_value:
+            type: number
+            format: double
+        current_performance:
+            type: number
+            format: double
+        investment_strategy:
+            type: string
+          
+
+  portfolioData:
+      type: object
+      properties:
+      
+        createBy:
+            type: string
+        createAt:
+            type: string
+            format: date-time
+        updateBy:
+            type: string
+        updateAt:
+            type: string
+            format: date-time
+        customer_name:
+            type: string
+            minLength: 2      
+            maxLength: 150      
+        portfolio_number:
+            type: string
+            minLength: 3      
+            maxLength: 15      
+        portfolio_value:
+            type: number
+            format: double
+        current_performance:
+            type: number
+            format: double
+        investment_strategy:
+            type: string
+          
+    

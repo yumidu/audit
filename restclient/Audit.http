@@ -1,0 +1,64 @@
+@HOST = http://localhost:8080
+@AUTH = eyJhbGciOiJIUzM4NCJ9.eyJpbWFnZSI6IjE3ODgyNjE3LWZmMjYtNGI2My04NzQzLWRjOWU1NmY5YjFlOCIsImZpcnN0bmFtZSI6InVDb2RlIiwicGVybWlzc2lvbkxldmVsIjoxLCJtb2JpbGUiOiI2MDE3NjQwODI1MCIsInVzZXJJZCI6IjE3ODgyNjE3LWZmMjYtNGI2My04NzQzLWRjOWU1NmY5YjFlOCIsIndlYkFjY2VzcyI6MSwiZW1haWwiOiJ0ZXN0QGhjbC5jb20iLCJsYXN0bmFtZSI6IlRlc3QiLCJzdWIiOiJ0ZXN0QGhjbC5jb20iLCJpYXQiOjE3MTQyMDM5MDEsImV4cCI6MTcxNDIxODMwMX0.Z5SHv1DRSbS5rKmj6iE6FxQZ6oQQbY8Pu9gT7DnAehvOXc2p5D13IqdMz_xdI9wH
+@TESTID = testID
+//LOGIN ENDPOINT TO GET AUTH TOKEN
+POST {{HOST}}/auth HTTP/1.1
+content-type: application/json
+
+{
+"email":"test@hcl.com",
+"password":"123456"
+}
+###
+POST {{HOST}}/audit HTTP/1.1
+Authorization: Bearer {{AUTH}}
+content-type: application/json
+
+{
+"portfolio_id":"dolore",
+"instrument_id":"deserunt",
+"quantity":"5",
+"trade_price":"1.35",
+"trade_type":"euclf"
+}
+
+###
+
+GET {{HOST}}/audit? HTTP/1.1
+Authorization: Bearer {{AUTH}}
+
+###
+GET {{HOST}}/audit?portfolio_id=dolore&instrument_id=deserunt&quantity=5&trade_price=1.35&trade_type=euclf HTTP/1.1
+Authorization: Bearer {{AUTH}}
+
+###
+GET {{HOST}}/audit/{{TESTID}} HTTP/1.1
+Authorization: Bearer {{AUTH}}
+
+###
+PUT {{HOST}}/audit/{{TESTID}} HTTP/1.1
+Authorization: Bearer {{AUTH}}
+content-type: application/json
+
+{
+"portfolio_id":"dolore",
+"instrument_id":"deserunt",
+"quantity":"5",
+"trade_price":"1.35",
+"trade_type":"euclf"
+}
+###
+PATCH {{HOST}}/audit/{{TESTID}} HTTP/1.1
+Authorization: Bearer {{AUTH}}
+content-type: application/json
+
+{
+"portfolio_id":"dolore",
+"instrument_id":"deserunt",
+"quantity":"5",
+"trade_price":"1.35",
+"trade_type":"euclf"
+}
+###
+DELETE {{HOST}}/audit/{{TESTID}} http/1.1
+Authorization: Bearer {{AUTH}} 

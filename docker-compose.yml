@@ -1,0 +1,39 @@
+version: '3.8'
+networks:
+  app-tier:
+    driver: bridge
+services:
+    db:
+      image: mysql:8.0
+      command: --default-authentication-plugin=mysql_native_password
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: 123456
+        MYSQL_DATABASE: hclhackathon
+      volumes:
+        - ./mysqldata:/var/lib/mysql
+      ports:
+        - 3306:3306
+      networks:
+        - app-tier   
+    api:
+      build: ./api_java-spring_mysql
+      command: bash -c 'while !</dev/tcp/db/3306; do sleep 1; done; npm start'
+      ports:
+        - 8080:8080
+      depends_on:
+        - db
+      networks:
+        - app-tier 
+      environment:
+        DB_HOST: db
+        DB_USER: root
+        DB_PASSWORD: 123456
+        DB_NAME: hclhackathon
+        DB_PORT: 3306
+    web:
+      build: ./web_react_js
+      depends_on:
+        - api
+      ports :
+        - 3000:3000

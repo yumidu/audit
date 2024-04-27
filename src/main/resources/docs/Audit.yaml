@@ -1,0 +1,499 @@
+
+securitySchemes:
+    bearerAuth:  # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+paths:
+  /audit:
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+        - audit
+      summary: Add new Audit
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: displayName
+          description: Save new Audit
+          required: true
+          schema:
+            $ref: '#/definitions/audit'
+      responses:
+        '201':
+          description: An object with Audit details
+
+  /audit/:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - audit
+      summary: List Audit
+      description: Search Audit 
+      parameters:
+        - name: page
+          in: query
+          description: page No
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit data per page or Page Size
+          required: false
+          explode: true
+          schema:
+            type: integer
+        
+        - name: createBy
+          in: query
+          description: createBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: createBy_mode
+          in: query
+          description: createBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: updateBy
+          in: query
+          description: updateBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: updateBy_mode
+          in: query
+          description: updateBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: portfolio_id
+          in: query
+          description: portfolio_id values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: portfolio_id_mode
+          in: query
+          description: portfolio_id mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: instrument_id
+          in: query
+          description: instrument_id values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: instrument_id_mode
+          in: query
+          description: instrument_id mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: quantity
+          in: query
+          description: quantity values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: quantity_mode
+          in: query
+          description: quantity mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: trade_price
+          in: query
+          description: trade_price values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: trade_price_mode
+          in: query
+          description: trade_price mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: trade_type
+          in: query
+          description: trade_type values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: trade_type_mode
+          in: query
+          description: trade_type mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  perpage:
+                    type: integer
+                  page:
+                    type: integer
+                  docs:
+                    type: array
+                    items:
+                      $ref: '#/definitions/auditData'
+        '400':
+          description: Invalid status value
+/audit/all:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - audit
+      summary: List Audit
+      description: get all data without paging
+      parameters: 
+       
+        - name: createBy
+          in: query
+          description: createBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: createBy_mode
+          in: query
+          description: createBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: updateBy
+          in: query
+          description: updateBy values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: updateBy_mode
+          in: query
+          description: updateBy mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: portfolio_id
+          in: query
+          description: portfolio_id values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: portfolio_id_mode
+          in: query
+          description: portfolio_id mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: instrument_id
+          in: query
+          description: instrument_id values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: instrument_id_mode
+          in: query
+          description: instrument_id mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+        - name: quantity
+          in: query
+          description: quantity values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: quantity_mode
+          in: query
+          description: quantity mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: trade_price
+          in: query
+          description: trade_price values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: integer
+        - name: trade_price_mode
+          in: query
+          description: trade_price mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: equals
+            enum:
+              - equals
+              - notEquals
+              - lt
+              - lte
+              - gt
+              - gte
+        - name: trade_type
+          in: query
+          description: trade_type values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: trade_type_mode
+          in: query
+          description: trade_type mode values that need to be considered for filter type greater than,less than,equal
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: contains
+            enum:
+              - equals
+              - contains
+              - startsWith
+              - endsWith
+              - notContains
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/auditData'
+        '400':
+          description: Invalid status value
+/audit/suggestions:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - audit
+      summary: List audit
+      description: Keyward search data on portfolio_id,instrument_id,trade_type
+      parameters:
+        - name: search  
+          in: query
+          description: keyword search on portfolio_id,instrument_id,trade_type
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/auditData'
+        '400':
+          description: Invalid status value
+/audit/{id}:
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - audit
+      summary: List audit
+      description: get 
+      parameters:
+        - name: id
+          in: path
+          description: get Audit by id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/auditData'
+        '400':
+          description: Invalid status value
+definitions:
+  audit:
+      type: object
+      properties:
+        
+        createBy:
+            type: string
+        createAt:
+            type: string
+            format: date-time
+        updateBy:
+            type: string
+        updateAt:
+            type: string
+            format: date-time
+        portfolio_id:
+            type: string
+        instrument_id:
+            type: string
+        quantity:
+            type: integer
+            maximum: 1000      
+        trade_price:
+            type: number
+            format: double
+        trade_type:
+            type: string
+          
+
+  auditData:
+      type: object
+      properties:
+      
+        createBy:
+            type: string
+        createAt:
+            type: string
+            format: date-time
+        updateBy:
+            type: string
+        updateAt:
+            type: string
+            format: date-time
+        portfolio_id:
+            type: string
+        instrument_id:
+            type: string
+        quantity:
+            type: integer
+            maximum: 1000      
+        trade_price:
+            type: number
+            format: double
+        trade_type:
+            type: string
+          
+    
