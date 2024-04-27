@@ -32,11 +32,11 @@ import jakarta.persistence.ManyToOne;
      
 import jakarta.persistence.Column;
 import net.hcl.hclhackathon.config.Auditable;
-import net.hcl.hclhackathon.instrument.Instrument;
+
 import net.hcl.hclhackathon.interfaces.IDataAdd;
 import net.hcl.hclhackathon.interfaces.IDataSearch;
 import net.hcl.hclhackathon.interfaces.IDataUpdate;
-import net.hcl.hclhackathon.portfolio.Portfolio;
+
 import net.hcl.hclhackathon.validation.ValidDate;
 @Entity
 @Table
@@ -67,28 +67,7 @@ private Double trade_price ;
 private String trade_type ;
 
 
-@ManyToOne
-@JoinColumn(name = "instrument_id", insertable = false, updatable = false)
-private Instrument instrument ;
 
-
-@ManyToOne
-@JoinColumn(name = "portfolio_id", insertable = false, updatable = false)
-private Portfolio portfolio ;
-
-public Portfolio getPortfolio() {
-    return portfolio;
-}
-public void setPortfolio(Portfolio val) {
-    this.portfolio = val;
-}
-
-public Instrument getInstrument() {
-    return instrument;
-}
-public void setInstrument(Instrument val) {
-    this.instrument = val;
-}
 
 
     public String getId() {
